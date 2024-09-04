@@ -37,18 +37,16 @@ function App() {
   const [friend, setFriend] = useState(initialFriends);
   const [selectedFriend, setSelectedFriend] = useState(null);
 
- function handleSplitBill(value) {
-   setFriend((friends) =>
-     friends.map((friend) =>
-       friend.id === selectedFriend.id
-         ? { ...friend, balance: friend.balance + value }
-         : friend
-     )
-   );
-   setSelectedFriend(null)
- }
-
- 
+  function handleSplitBill(value) {
+    setFriend((friends) =>
+      friends.map((friend) =>
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + value }
+          : friend
+      )
+    );
+    setSelectedFriend(null);
+  }
 
   function handleSelect(friend) {
     setSelectedFriend((cur) => (cur?.id === friend.id ? null : friend));
@@ -81,7 +79,7 @@ function App() {
       {selectedFriend && (
         <FormSplitBill
           selectedFriend={selectedFriend}
-          onSplitBill={handleSplitBill} 
+          onSplitBill={handleSplitBill}
         />
       )}
     </div>
@@ -104,7 +102,7 @@ function FriendList({ friend, onSelect, selectedFriend }) {
 }
 
 function Friend({ friend, onSelect, selectedFriend }) {
-  const selected = selectedFriend && friend.id === selectedFriend.id; 
+  const selected = selectedFriend && friend.id === selectedFriend.id;
   return (
     <li className={selected ? "selected" : ""}>
       <img src={friend.image} alt={friend.name} />
@@ -168,18 +166,19 @@ function FormAddFriend({ onAddFriend }) {
   );
 }
 
+// add split bill for 3 ppl or more...
 function FormSplitBill({ selectedFriend, onSplitBill }) {
   const [bill, setBill] = useState("");
   const [payer, setPayer] = useState("");
   const paidByFriend = bill ? bill - payer : "";
-  const [whoispaying, setWhoIsPaying] = useState("user"); 
+  const [whoispaying, setWhoIsPaying] = useState("user");
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!bill || !payer) return;
 
-    onSplitBill(whoispaying === "user" ? paidByFriend : -payer); 
+    onSplitBill(whoispaying === "user" ? paidByFriend : -payer);
   }
 
   return (
@@ -214,6 +213,5 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
     </form>
   );
 }
-
 
 export default App;
